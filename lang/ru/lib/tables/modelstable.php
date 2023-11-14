@@ -1,0 +1,4 @@
+<?
+$MESS["MODELS_ENTITY_ID_FIELD"] = "ID";
+$MESS["MODELS_ENTITY_NAME_FIELD"] = "Наименование";
+?>
