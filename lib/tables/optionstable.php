@@ -8,13 +8,13 @@
 namespace Ibs\NotebooksStore\Tables;
 
 use Bitrix\Main,
-	Bitrix\Main\Localization\Loc,
-	Bitrix\Main\ORM\Data\DataManager,
-	Bitrix\Main\ORM\Fields\DatetimeField,
-	Bitrix\Main\ORM\Fields\IntegerField,
-	Bitrix\Main\ORM\Fields\TextField,
-	Bitrix\Main\ORM\Fields\BooleanField,
-	Bitrix\Main\ORM\Fields\Relations\ManyToMany;
+    Bitrix\Main\Localization\Loc,
+    Bitrix\Main\ORM\Data\DataManager,
+    Bitrix\Main\ORM\Fields\DatetimeField,
+    Bitrix\Main\ORM\Fields\IntegerField,
+    Bitrix\Main\ORM\Fields\TextField,
+    Bitrix\Main\ORM\Fields\BooleanField,
+    Bitrix\Main\ORM\Fields\Relations\ManyToMany;
 
 Loc::loadMessages(__FILE__);
 
@@ -31,40 +31,41 @@ Loc::loadMessages(__FILE__);
  **/
 class OptionsTable extends Main\Entity\DataManager
 {
-	/**
-	 * Returns DB table name for entity.
-	 *
-	 * @return string
-	 */
-	public static function getTableName()
-	{
-		return 'ibs_ns_options';
-	}
+    /**
+     * Returns DB table name for entity.
+     *
+     * @return string
+     */
+    public static function getTableName()
+    {
+        return 'ibs_ns_options';
+    }
 
-	/**
-	 * Returns entity map definition.
-	 *
-	 * @return array
-	 */
-	public static function getMap()
-	{
-		return [
-			(new IntegerField(
-				'ID',
-				[
-					'primary' => true,
-					'autocomplete' => true,
-					'title' => Loc::getMessage('OPTIONS_ENTITY_ID_FIELD'),
-				]
-			)),
-			(new TextField(
-				'NAME',
-				[
-					'title' => Loc::getMessage('OPTIONS_ENTITY_NAME_FIELD'),
-				]
-			)),
-			(new ManyToMany('NOTEBOOKS', NotebooksTable::class))
-				->configureTableName('ibs_ns_notebook_option'),
-		];
-	}
+    /**
+     * Returns entity map definition.
+     *
+     * @return array
+     */
+    public static function getMap()
+    {
+        return [
+            (new IntegerField(
+                'ID',
+                [
+                    'primary' => true,
+                    'autocomplete' => true,
+                    'title' => Loc::getMessage('OPTIONS_ENTITY_ID_FIELD'),
+                ]
+            )),
+            (new TextField(
+                'NAME',
+                [
+                    'required' => true,
+                    'title' => Loc::getMessage('OPTIONS_ENTITY_NAME_FIELD'),
+                ]
+            )),
+            (new ManyToMany('NOTEBOOKS', NotebooksTable::class))
+                ->configureTableName('ibs_ns_notebook_option'),
+        ];
+    }
 }

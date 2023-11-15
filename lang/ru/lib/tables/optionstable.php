@@ -1,4 +1,5 @@
 <?
+
 $MESS["OPTIONS_ENTITY_ID_FIELD"] = "ID";
 $MESS["OPTIONS_ENTITY_NAME_FIELD"] = "Свойство";
 ?>

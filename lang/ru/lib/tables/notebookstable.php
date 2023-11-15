@@ -1,4 +1,5 @@
 <?
+
 $MESS["NOTEBOOKS_ENTITY_ID_FIELD"] = "ID";
 $MESS["NOTEBOOKS_ENTITY_NAME_FIELD"] = "Наименование";
 $MESS["NOTEBOOKS_ENTITY_YEAR_FIELD"] = "Год производства";
