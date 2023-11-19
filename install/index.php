@@ -59,6 +59,7 @@ class ibs_notebooksstore extends CModule
     {
         if (Loader::includeModule($this->MODULE_ID)) {
             $connection = Application::getInstance()->getConnection();
+            $newInstall = false;
             if (!$connection->isTableExists(Ibs\NotebooksStore\Tables\VendorsTable::getTableName())) {
                 Ibs\NotebooksStore\Tables\VendorsTable::getEntity()->createDbTable();
             }
@@ -73,8 +74,11 @@ class ibs_notebooksstore extends CModule
             }
             if (!$connection->isTableExists(Ibs\NotebooksStore\Tables\NotebookOptionTable::getTableName())) {
                 Ibs\NotebooksStore\Tables\NotebookOptionTable::getEntity()->createDbTable();
+                $newInstall = true;
             }
-            $this->AddDemoData();
+            if ($newInstall) {
+                $this->AddDemoData();
+            }
             return true;
         }
     }
@@ -83,8 +87,11 @@ class ibs_notebooksstore extends CModule
     {
         $brands = [
             'Aser',
+            'Aser',
             'ASUS',
             'Apple',
+            'Dexp',
+            'Dell',
             'Lenovo',
             'HONOR',
         ];
@@ -101,7 +108,7 @@ class ibs_notebooksstore extends CModule
         }
         $models = [];
         foreach ($vendors as $number => $vendorName) {
-            for ($i = 1; $i < rand(2, 5); $i++) {
+            for ($i = 1; $i < rand(5, 10); $i++) {
                 $result = Ibs\NotebooksStore\Tables\ModelsTable::add(
                     [
                         'NAME' => "Модель-" . $number . '-' . $i,
@@ -114,7 +121,7 @@ class ibs_notebooksstore extends CModule
             }
         }
         foreach ($models as $number => $modelName) {
-            for ($i = 1; $i < rand(2, 5); $i++) {
+            for ($i = 1; $i < rand(5, 10); $i++) {
                 $result = Ibs\NotebooksStore\Tables\NotebooksTable::add(
                     [
                         'NAME' => "Ноутбук-" . $number . '-' . $i,
@@ -159,7 +166,7 @@ class ibs_notebooksstore extends CModule
             foreach ($options as $optionId => $option) {
                 switch ($option) {
                     case 'Вес':
-                        $value = (rand(1, 3) + rand(1, 100) / 100) . ' кг.';
+                        $value = (rand(1, 3) + rand(1, 100) / 100) . ' кг';
                         break;
                     case 'Размер':
                         $value = rand(13, 21) . '\'\'';
@@ -212,11 +219,30 @@ class ibs_notebooksstore extends CModule
 
     function InstallFiles()
     {
+        CopyDirFiles(
+            Application::getDocumentRoot() . "/local/modules/" . $this->MODULE_ID . "/install/components",
+            Application::getDocumentRoot() . "/local/components",
+            true,
+            true
+        );
         return true;
     }
 
     function UnInstallFiles()
     {
+        /**
+         * Компоненты и прочую файловую составляющую не трогаем. (с) ТЗ
+         * Пониимаю как не удалять.
+         */
+//        DeleteDirFiles(
+//            Application::getDocumentRoot() . "/local/modules/" . $this->MODULE_ID . "/install/admin",
+//            Application::getDocumentRoot() . "/bitrix/admin"
+//        );
+//        DeleteDirFiles(
+//            Application::getDocumentRoot() . "/local/modules/" . $this->MODULE_ID . "/install/components",
+//            Application::getDocumentRoot() . "/local/components"
+//        );
+//        DeleteDirFilesEx(Application::getDocumentRoot() . '/local/components/' . $this->MODULE_ID);
         return true;
     }
 

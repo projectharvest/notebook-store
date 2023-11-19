@@ -1,4 +1,5 @@
 <?
+
 $MESS ['IBS_NS_MODULE_NAME'] = "Магазин ноутбуков";
 $MESS ['IBS_NS_MODULE_DESCRIPTION'] = "Модуль для организации магазина ноутбуков";
 $MESS ['IBS_NS_INSTALL_TITLE'] = "Установка модуля \"Магазин ноутбуков\"";

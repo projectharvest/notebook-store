@@ -1,0 +1,4 @@
+<?
+
+$MESS["PARAMS"] = "Сomponent parameters";
+?>

@@ -1,0 +1,4 @@
+<?
+
+$sSectionName = "ibs.notebooksstore";
+?>

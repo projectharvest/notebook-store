@@ -14,7 +14,7 @@ use Bitrix\Main,
     Bitrix\Main\ORM\Fields\IntegerField,
     Bitrix\Main\ORM\Fields\TextField,
     Bitrix\Main\ORM\Fields\BooleanField,
-    Bitrix\Main\ORM\Fields\Relations\ManyToMany;
+    Bitrix\Main\ORM\Fields\Relations\OneToMany;
 
 Loc::loadMessages(__FILE__);
 
@@ -64,8 +64,7 @@ class OptionsTable extends Main\Entity\DataManager
                     'title' => Loc::getMessage('OPTIONS_ENTITY_NAME_FIELD'),
                 ]
             )),
-            (new ManyToMany('NOTEBOOKS', NotebooksTable::class))
-                ->configureTableName('ibs_ns_notebook_option'),
+            (new oneToMany('NOTEBOOK_ITEMS', NotebookOptionTable::class, 'OPTION')),
         ];
     }
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  * User: Kirill Platonov
- * Date: 07/06/20
+ * Date: 14/11/23
  * Time: 21:00
  */
 
@@ -14,7 +14,6 @@ use Bitrix\Main,
     Bitrix\Main\ORM\Fields\IntegerField,
     Bitrix\Main\ORM\Fields\TextField,
     Bitrix\Main\ORM\Fields\BooleanField,
-    Bitrix\Main\ORM\Fields\Relations\ManyToMany,
     Bitrix\Main\ORM\Fields\Relations\Reference,
     Bitrix\Main\ORM\Fields\ScalarField,
     Bitrix\Main\ORM\Query\Join;
@@ -28,6 +27,7 @@ Loc::loadMessages(__FILE__);
  * <ul>
  * <li> NOTEBOOK_ID int mandatory
  * <li> OPTION_ID int mandatory
+ * <li> VALUE string optional
  * </ul>
  *
  * @package Ibs\NotebooksStore\Tables

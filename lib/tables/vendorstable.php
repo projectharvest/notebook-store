@@ -1,7 +1,7 @@
 <?php
 /**
  * User: Kirill Platonov
- * Date: 07/06/20
+ * Date: 14/11/23
  * Time: 21:00
  */
 
@@ -14,7 +14,8 @@ use Bitrix\Main,
     Bitrix\Main\ORM\Fields\IntegerField,
     Bitrix\Main\ORM\Fields\TextField,
     Bitrix\Main\ORM\Fields\BooleanField,
-    Bitrix\Main\ORM\Fields\Relations\OneToMany;
+    Bitrix\Main\ORM\Fields\Relations\OneToMany,
+    CUtil;
 
 Loc::loadMessages(__FILE__);
 
@@ -25,6 +26,7 @@ Loc::loadMessages(__FILE__);
  * <ul>
  * <li> ID int mandatory
  * <li> NAME string optional
+ * <li> CODE string optional
  * </ul>
  *
  * @package Ibs\NotebooksStore\Tables
@@ -39,6 +41,42 @@ class VendorsTable extends Main\Entity\DataManager
     public static function getTableName()
     {
         return 'ibs_ns_vendors';
+    }
+
+    /**
+     * @param Main\Entity\Event $event
+     * @return Main\Entity\EventResult
+     */
+    public static function onBeforeAdd(Main\Entity\Event $event)
+    {
+        $result = new Main\Entity\EventResult;
+        $data = $event->getParameter("fields");
+        if (isset($data['CODE'])) {
+            $cleanCode = preg_replace("/[^a-zA-Z0-9\s]/", '', $data['CODE']);
+            $result->modifyFields(['CODE' => $cleanCode]);
+        } else {
+            $result->modifyFields(['CODE' => CUtil::translit($data['NAME'], 'ru')]);
+        }
+        return $result;
+    }
+
+    /**
+     * @param Main\Entity\Event $event
+     * @return Main\Entity\EventResult
+     */
+    public static function onBeforeUpdate(Main\Entity\Event $event)
+    {
+        $result = new Main\Entity\EventResult;
+        $data = $event->getParameter("fields");
+        if (isset($data['CODE'])) {
+            $cleanCode = preg_replace("/[^a-zA-Z0-9\s]/", '', $data['CODE']);
+            if (empty($cleanCode)) {
+                $result->modifyFields(['CODE' => CUtil::translit($data['NAME'], 'ru')]);
+            } else {
+                $result->modifyFields(['CODE' => $cleanCode]);
+            }
+        }
+        return $result;
     }
 
     /**
@@ -64,6 +102,17 @@ class VendorsTable extends Main\Entity\DataManager
                     'title' => Loc::getMessage('VENDORS_ENTITY_NAME_FIELD'),
                 ]
             ),
+            (new TextField(
+                'CODE',
+                [
+                    'title' => Loc::getMessage('MODELS_ENTITY_CODE_FIELD'),
+                    'validation' => function () {
+                        return [
+                            new \Bitrix\Main\ORM\Fields\Validators\UniqueValidator(Loc::getMessage("DUPLICATED_ERROR")),
+                        ];
+                    },
+                ]
+            )),
             (new OneToMany(
                 'MODELS',
                 ModelsTable::class,

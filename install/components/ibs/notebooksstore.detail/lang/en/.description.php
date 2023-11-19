@@ -1,0 +1,7 @@
+<?
+
+$MESS["COMPONENT_NAME"] = "Detail";
+$MESS["COMPONENT_DESCRIPTION"] = "Detail";
+$MESS["COMPONENT_SUB_NAME"] = "Detail";
+
+?>
